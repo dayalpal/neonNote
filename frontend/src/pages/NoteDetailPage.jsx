@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { apiUrl } from "../api";
 
 const formatDate = (value) => {
   if (!value) return "";
@@ -25,7 +26,7 @@ const NoteDetailPage = ({ auth }) => {
   useEffect(() => {
     const fetchNote = async () => {
       try {
-        const response = await fetch(`/api/notes/get/${id}`, {
+        const response = await fetch(apiUrl(`/api/notes/get/${id}`), {
           headers: {
             Authorization: `Bearer ${auth.token}`,
           },
@@ -50,7 +51,7 @@ const NoteDetailPage = ({ auth }) => {
     setSaving(true);
 
     try {
-      const response = await fetch(`/api/notes/update/${id}`, {
+      const response = await fetch(apiUrl(`/api/notes/update/${id}`), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -72,7 +73,7 @@ const NoteDetailPage = ({ auth }) => {
     if (!window.confirm("Delete this note?")) return;
 
     try {
-      const response = await fetch(`/api/notes/delete/${id}`, {
+      const response = await fetch(apiUrl(`/api/notes/delete/${id}`), {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${auth.token}`,

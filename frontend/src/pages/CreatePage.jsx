@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { apiUrl } from "../api";
 
 const CreatePage = ({ auth }) => {
   const [title, setTitle] = useState("");
@@ -18,7 +19,7 @@ const CreatePage = ({ auth }) => {
     setSaving(true);
 
     try {
-      const response = await fetch("/api/notes/create", {
+      const response = await fetch(apiUrl("/api/notes/create"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

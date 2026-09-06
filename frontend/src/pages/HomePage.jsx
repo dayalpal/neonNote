@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { apiUrl } from "../api";
 
 const formatDate = (value) => {
   if (!value) return "";
@@ -26,7 +27,7 @@ const HomePage = ({ auth }) => {
 
     const fetchNotes = async () => {
       try {
-        const response = await fetch("/api/notes/get", {
+        const response = await fetch(apiUrl("/api/notes/get"), {
           headers: {
             Authorization: `Bearer ${auth.token}`,
           },

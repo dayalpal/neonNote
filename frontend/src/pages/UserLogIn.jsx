@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { apiUrl } from "../api";
 
 const UserLogIn = ({ auth, login }) => {
   const [mode, setMode] = useState("login");
@@ -24,7 +25,7 @@ const UserLogIn = ({ auth, login }) => {
 
     try {
       const body = isLogin ? { email, password } : { name, email, password };
-      const response = await fetch(endpoint, {
+      const response = await fetch(apiUrl(endpoint), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
@@ -35,7 +36,7 @@ const UserLogIn = ({ auth, login }) => {
       try {
         data = responseText ? JSON.parse(responseText) : {};
       } catch {
-        throw new Error(`Request failed (${response.status})`);
+        throw new Error(`Request failed (${response.status}): ${responseText.slice(0, 120)}`);
       }
       if (!response.ok) {
         throw new Error(data.message || "Unable to authenticate");
