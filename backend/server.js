@@ -14,6 +14,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    res.status(503).json({ message: "Database unavailable" });
+  }
+});
+
 app.use("/api/notes", notesRoutes);
 app.use("/api/users", userRoutes);
 

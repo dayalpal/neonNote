@@ -30,7 +30,13 @@ const UserLogIn = ({ auth, login }) => {
         body: JSON.stringify(body),
       });
 
-      const data = await response.json();
+      const responseText = await response.text();
+      let data = {};
+      try {
+        data = responseText ? JSON.parse(responseText) : {};
+      } catch {
+        throw new Error(`Request failed (${response.status})`);
+      }
       if (!response.ok) {
         throw new Error(data.message || "Unable to authenticate");
       }
