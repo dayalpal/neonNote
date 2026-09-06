@@ -17,8 +17,12 @@ app.use(express.json());
 app.use("/api/notes", notesRoutes);
 app.use("/api/users", userRoutes);
 
-connectDB().then(() => {
-  app.listen(5000, () => {
-    console.log("Server is running on PORT : 5000");
+if (process.env.NODE_ENV !== "production") {
+  connectDB().then(() => {
+    app.listen(process.env.PORT || 5000, () => {
+      console.log(`Server is running on PORT: ${process.env.PORT || 5000}`);
+    });
   });
-});
+}
+
+export default app;

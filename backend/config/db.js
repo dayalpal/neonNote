@@ -11,19 +11,17 @@
 // }
 
 import mongoose from "mongoose";
-// import dotenv from "dotenv";
-// dotenv.config();
 
 export const connectDB = async () => {
+    if (mongoose.connection.readyState === 1) return mongoose.connection;
+
     try {
-        await mongoose.connect(
-            process.env.MONGO_URI
-        );
-//mongodb+srv://dayalpal:<db_password>@cluster0.x1uycdy.mongodb.net/
+        await mongoose.connect(process.env.MONGO_URI);
         console.log("MongoDB Connected Successfully");
+        return mongoose.connection;
     } catch (error) {
         console.log("MongoDB Connection Error:", error.message);
-        process.exit(1);
+        throw error;
     }
 };
 
